@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const Celebrity = require('../models/celebrity');
 const Movie = require('../models/movie');
 
 /* GET home page. */
@@ -43,7 +44,7 @@ router.post('/movies', function(req, res, next) {
 });
 
 router.get('/movies/:id', function (req, res, next) {
-  Movie.findOne({_id: req.params.id}, (err, theMovie) => {
+  Movie.findOne({_id: req.params.id}).populate('actors').exec(function (err, theMovie) {
     if (err) { return next(err); }
     res.render('movies/show', {
       title: `${theMovie.name} Details`,
@@ -53,6 +54,55 @@ router.get('/movies/:id', function (req, res, next) {
 
 });
 
+router.get('/movies/:id/addceleb', function (req, res, next) {
+  Movie.findOne({_id: req.params.id}).populate('actors').exec(function (err, theMovie) {
+    if (err) { return next(err); }
+    res.render('movies/addceleb', {
+      title: `${theMovie.name} - Add Celebrity`,
+      movie: theMovie
+    });
+  });
+});
+
+router.post('/movies/:id/addceleb', function (req, res, next) {
+  Movie.findOne({_id: req.params.id}).populate('actors').exec(function (err, theMovie) {
+    if (err) { return next(err); }
+    // Add celebrity ref to this movie
+    Celebrity.findOne({name: req.body.celeb_name}, (err, theCeleb) => {
+      if (err) { return next(err); }
+      let mvCelebArray = theMovie.actors;
+      mvCelebArray.push(theCeleb._id);
+      const updatedMovie = {
+        actors: mvCelebArray
+      }
+      Movie.update({_id: req.params.id}, updatedMovie, (err, theMovie) => {
+        if (err) {return next(err); }
+        res.redirect('/movies/' + req.params.id);
+      });
+    });
+  });
+});
+
+router.get('/movies/:id/removeceleb/:id2', function (req, res, next) {
+  Movie.findOne({_id: req.params.id}).populate('actors').exec(function (err, theMovie) {
+    if (err) { return next(err); }
+  // Remove celebrity ref to this movie
+    let mvCelebArray = theMovie.actors;
+    for (let i = 0; i < mvCelebArray.length; i++) {
+      if (mvCelebArray[i]._id == req.params.id2) {
+        mvCelebArray.splice(i,1); break;
+      }
+    }
+
+    const updatedMovie = {
+      actors: mvCelebArray
+    }
+    Movie.update({_id: req.params.id}, updatedMovie, (err, theMovie) => {
+      if (err) {return next(err); }
+      res.redirect('/movies/' + req.params.id);
+    });
+  });
+});
 
 router.get('/movies/:id/edit', function (req, res, next) {
   Movie.findOne({ _id: req.params.id }, (err, theMovie) => {

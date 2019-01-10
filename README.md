@@ -1,7 +1,36 @@
 ![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
 
-# Mongoose Movies
+# Mongoose Movies - Alternate Ending
 
+You will find the original Mongoose Movies Lab here: https://github.com/ironhack-labs/lab-mongoose-movies
+
+The `solution-code2` directory of this repo contains a (partial) solution to bonus exercise/iteration described below.
+
+We return to Mongoose Movies to add another feature: provide a CRUD interface to support "Appeared in" relationships between Movies and Celebrities.
+
+Example Use Case:
+
+1. Add Movie "Moulin Rouge"
+2. Add Celebrity "Nicole Kidman"
+3. Add relationship: "Nicole Kidman" - "Appeared in" "Moulin Rouge"
+
+YOU DO NOT NEED to create any initial relationships in your seeds.js file.
+
+YOU DO NEED to handle all of these use cases:
+
+**1. Adding a relationship between existing documents (Movie and Celebrity both already exist, but not yet related)**\
+**2. Adding a Celebrity "on the fly" and immediately linking them to a Movie; OR adding a Movies "on the fly" and immediately linking them to a Celebrity; or both**\
+**3. Listing relationships (e.g., on Movie Detail page, show all related Celebrities; and/or on Celebrity Detail page, show all related Movies)**\
+**4. Delete link from a Celebrity to a Movie**\
+
+It is reasonable to NOT implement "edit" for such links. It is just as easy to delete a link then add a new one.
+
+BEFORE YOU BEGIN.... Think carefully about the "direction" and management
+of the relationships. A celebrity can appear in ZERO movies, and a movie can be added in which NO celebrity (at least, none in our database) appears.
+
+REMEMBER: when using a document-oriented / noSQL database, YOU are responsible for referential integrity. So for example, when you DELETE a celebrity, your code must include logic to remove all references in Movies to that celebrity.
+
+The content of the original Mongoose Movies Lab README follows below.
 
 ## Introduction
 Everyone likes celebrities, right? Well, even if you don't, now is your chance to create your own, better, fictional celebrities!

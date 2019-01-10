@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}}</title>
+    <title>{{movie.title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>{{title}}</h1>
+    <h1>{{movie.title}}</h1>
 <ul>
 
 <li> Title:{{ movie.title }} </li>
 <li> Genre: {{ movie.genre }}</li>
 <li> Plot:{{ movie.plot }} </li>
-
+{{#if movie.actors}}
+<li><h3>Actors:</h3><ul>
+      {{#each movie.actors}}
+      <li><a href="/celebrities/{{this._id}}">{{this.name}}</a>
+      <a class="dbOp" 
+      href="/movies/{{ @root.movie._id }}/removeceleb/{{ this._id }}">Remove</a></li>
+      {{/each}}</ul>
+</li>
+{{/if}}
 </ul>
+<a class="dbOp" href="/movies/{{ movie._id }}/addceleb">Add Celeb</a><br />
+<a class="dbOp" href="/movies/{{ movie._id }}/addnewceleb">Add New Celeb</a><br />
+<hr />
+<a href = "/movies">Back to Movie Inventory</a><br />
+  </body><a href="/">Home</a>
 
-      <a href = "/movies">
-        Back to Movie Inventory
-      </a>
-  </body>
 </html>

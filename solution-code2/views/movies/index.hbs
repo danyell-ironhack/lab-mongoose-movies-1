@@ -13,7 +13,7 @@
             {{ this.title }}
           </a>
           - {{ this.genre }}
-          <a href="/movies/{{ this._id }}/edit">
+          <a class="dbOp" href="/movies/{{ this._id }}/edit">
             Edit
           </a>
           <form action="/movies/{{ this._id }}/delete" method="POST">
@@ -25,6 +25,7 @@
 
     <a href = "/movies/new">
       Click here to add a new movie
-    </a>
+    </a><br />
+    <a href="/">Home</a>
   </body>
 </html>

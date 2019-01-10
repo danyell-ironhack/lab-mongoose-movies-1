@@ -13,7 +13,7 @@
             {{ this.name }}
           </a>
           - {{ this.occupation }}
-          <a href="/celebrities/{{ this._id }}/edit">
+          <a class="dbOp" href="/celebrities/{{ this._id }}/edit">
             Edit
           </a>
           <form action="/celebrities/{{ this._id }}/delete" method="POST">
@@ -25,6 +25,7 @@
 
     <a href = "/celebrities/new">
       Click here to add a new celebrity
-    </a>
+    </a><br />
+    <a href="/">Home</a>
   </body>
 </html>

@@ -11,11 +11,19 @@
 <li> Name:{{ celebrity.name }} </li>
 <li> Occupation: {{ celebrity.occupation }}</li>
 <li> Catchphrase:{{ celebrity.catchPhrase }} </li>
-
+{{#if celebrity.featured}}
+<li><h3>Appears in:</h3>
+<ul>
+  {{#each celebrity.featured}}
+      <li><a href="/movies/{{this._id}}">{{this.title}}</a> <a class="dbOp" href="/movies/{{ this._id }}/removeceleb/{{ @root.celebrity._id }}">Remove</a></li>
+  {{/each}}
+</ul></li>
+{{/if}}
 </ul>
-
-      <a href = "/celebrities">
-        Back to Celebrity Inventory
-      </a>
+<a class="dbOp" href="/celebrities/{{ celebrity._id }}/addmovie">Add to Movie</a><br />
+<a class="dbOp" href="/celebrities/{{ celebrity._id }}/addnewmovie">Add to New Movie</a><br />
+<hr />
+<a href = "/celebrities">Back to Celebrity Inventory</a><br />
+<a href="/">Home</a>
   </body>
 </html>

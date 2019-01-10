@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Celebrity to {{movie.title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Add Celebrity to {{movie.title}}</h1>
+
+<h3>Existing Celebrities in this Movie:</h3><ul>
+      {{#each movie.actors}}
+      <li>{{this.name}}</li>
+      {{/each}}
+</ul>
+<form action="/movies/{{ movie._id }}/addceleb" method="POST">
+<input type="hidden" name="movie_id" value="{{ movie._id }}" />
+Please enter start of Celebrity's name:
+<input type="text" name="celeb_name" width="40">
+<button type="submit" value="Link">Link</button>
+</form>
+    <a href = "/movies">
+    Back to Movie Inventory
+    </a>
+  </body>
+</html>

@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+// Our models are interdependent, so we must include/require them BOTH
 const Celebrity = require('../models/celebrity');
+const Movie = require('../models/movie');
 
 /* GET home page. */
 router.get('/celebrities', function(req, res, next) {
   Celebrity.find({}, (err, celebritiesArray) => {
     if (err) { return next(err); }
-
     res.render('celebrities/index', {
       title: 'Celebrity Inventory',
       celebrities: celebritiesArray
@@ -38,6 +39,7 @@ router.post('/celebrities', function(req, res, next) {
       });
     }
     else {
+      // * * * CODE SUPP
       res.redirect('/celebrities');
     }
   })
@@ -46,12 +48,16 @@ router.post('/celebrities', function(req, res, next) {
 router.get('/celebrities/:id', function (req, res, next) {
   Celebrity.findOne({_id: req.params.id}, (err, theCelebrity) => {
     if (err) { return next(err); }
-    res.render('celebrities/show', {
-      title: `${theCelebrity.name} Details`,
-      celebrity: theCelebrity
+    // "Inject" linked Movies into this Celebrity object
+    Movie.find({actors: {$in: [req.params.id]}}, (err, moviesArray) => {
+      if (err) { return next(err); }
+      theCelebrity.featured = moviesArray;
+      res.render('celebrities/show', {
+        title: `${theCelebrity.name} Details`,
+        celebrity: theCelebrity
+      });
     });
   });
-
 });
 
 
